@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" lang="#{lc.language}">
+
+<f:view locale="#{lc.locale}">
+	<h:head>
+		<title>#{msgs.title}</title>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+	</h:head>
+	<h:body>
+		<h:form>
+			<p:growl id="messages" showDetail="true" />
+			<p:menubar>
+				<p:menuitem value="#{msgs.txt_tipobens}" action="tipobens" />
+				<p:menuitem value="#{msgs.txt_bens}" action="bens" />
+				<p:menuitem value="#{msgs.txt_bens_baixados}" action="bensbaixados" />
+				<p:menuitem value="#{msgs.txt_relatorios}" action="relatorios" />
+				<p:menuitem value="Dashboard" action="dashboard" />
+				<f:facet name="options">
+					<p:outputLabel value="#{msgs.escolheridioma}" for="cboIdioma" />
+					<p:selectOneMenu id="cboIdioma" value="#{lc.language}"
+						onchange="submit()">
+						<f:selectItem itemLabel="Português" itemValue="pt_BR" />
+						<f:selectItem itemLabel="English" itemValue="en" />
+						<f:selectItem itemLabel="Español" itemValue="es" />
+					</p:selectOneMenu>
+				</f:facet>
+			</p:menubar>
+		<p:dataTable id="dataTable" value="#{tipobembean.tipoBens}" var="objTipoBem">
+			<f:facet name="header">
+				<p:panelGrid columns="2">
+					<p:outputLabel value="#{msgs.txt_tipobens}" />
+					<p:commandLink value="#{msgs.btn_novo}" action="#{tipobembean.actionNovo}" />
+				</p:panelGrid>			
+			</f:facet>
+			<p:column headerText="#{msgs.lbl_descricao}">
+				<h:outputLabel value="#{objTipoBem.descricao}" />
+			</p:column>
+			<p:column headerText="#{msgs.lbl_vida_util}">
+				<h:outputLabel value="#{objTipoBem.vida_Util}" />
+			</p:column>
+			<p:column headerText="#{msgs.lbl_depreciavel}">
+				<h:outputLabel value="#{objTipoBem.depreciavel ? msgs.txt_sim : msgs.txt_nao }" />
+			</p:column>						
+			<p:column>
+				<p:commandButton type="submit" ajax="false" value="#{msgs.btn_editar}"
+									action="#{tipobembean.actionAlterar}"
+									icon="fas fa-pencil" >
+					<f:setPropertyActionListener value="#{objTipoBem}"
+						target="#{tipobembean.tipoBem}" />				
+				</p:commandButton>
+			</p:column>
+			<p:column>
+				<p:commandButton type="submit" ajax="false" value="#{msgs.btn_excluir}"
+									action="#{tipobembean.actionApagar}"
+									icon="fas fa-trash-alt" >
+					<f:setPropertyActionListener value="#{objTipoBem}"
+						target="#{tipobembean.tipoBem}" />				
+				</p:commandButton>
+			</p:column>		
+		</p:dataTable>     
+	</h:form>				
+	</h:body>
+</f:view>
+</html>

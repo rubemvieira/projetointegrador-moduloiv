@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" lang="#{lc.language}"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<f:view locale="#{lc.locale}">
+	<h:head>
+		<title>#{msgs.title}</title>
+	</h:head>
+	<h:body>
+		<h:form>
+			<p:growl id="messages" showDetail="true" />
+			<p:menubar>
+				<p:menuitem value="#{msgs.txt_tipobens}" action="tipobens" />
+				<p:menuitem value="#{msgs.txt_bens}" action="bens" />
+				<p:menuitem value="#{msgs.txt_bens_baixados}" action="bensbaixados" />
+				<p:menuitem value="#{msgs.txt_relatorios}" action="relatorios" />
+				<p:menuitem value="Dashboard" action="dashboard" />
+				<f:facet name="options">
+					<p:outputLabel value="#{msgs.escolheridioma}" for="cboIdioma" />
+					<p:selectOneMenu id="cboIdioma" value="#{lc.language}"
+						onchange="submit()">
+						<f:selectItem itemLabel="Português" itemValue="pt_BR" />
+						<f:selectItem itemLabel="English" itemValue="en" />
+						<f:selectItem itemLabel="Español" itemValue="es" />
+					</p:selectOneMenu>
+				</f:facet>
+			</p:menubar>
+		</h:form>
+		<br />
+		<p:outputLabel value="#{bembean.bem.baixado ? msgs.lbl_cadastro_bem_baixado : msgs.lbl_cadastro_bem}" />
+		<h:form>
+			<h:inputHidden value="#{bembean.bem.id}" />
+			<p:outputLabel value="#{beanbem.bem.baixado}" />
+
+			<p:panelGrid columns="2">
+
+				<p:outputLabel value="#{msgs.lbl_tipobem}" for="cboTipoBem" />
+				<p:selectOneMenu id="cboTipoBem" disabled="#{bembean.bem.baixado}"
+					value="#{bembean.bem.tipo}"
+					converter="#{tipoBemConverter}">
+					<f:selectItem itemLabel="#{msgs.lbl_selecionetipobem}"
+						itemValue="#{null}" />
+					<f:selectItems value="#{tipobembean.tipoBens}" var="objTipoBem"
+						itemLabel="#{objTipoBem.descricao}" />
+					<p:ajax event="itemSelect" listener="#{bembean.handleTipoBemChange}" update="@form"/>						
+				</p:selectOneMenu>
+
+				<p:outputLabel value="#{msgs.lbl_descricao}" for="txtDescricao" />
+				<p:inputText id="txtDescricao" value="#{bembean.bem.descricao}" readonly="#{bembean.bem.baixado}" />
+
+				<p:outputLabel value="#{msgs.lbl_data_aquisicao}" for="txtDataAquisicao" />
+				<p:calendar id="txtDataAquisicao" value="#{bembean.bem.data_aquisicao}" pattern="dd/MM/yyyy" mask="true" readonly="#{bembean.bem.baixado}" />
+
+				<p:outputLabel value="#{msgs.lbl_valor_aquisicao}" for="txtValorAquisicao" />
+				<p:inputNumber id="txtValorAquisicao" value="#{bembean.bem.valor_aquisicao}" readonly="#{bembean.bem.baixado}"
+					symbol=" R$" symbolPosition="s" decimalSeparator="," thousandSeparator="."
+				/>
+
+				<p:outputLabel value="#{msgs.lbl_bem_usado}" for="txtBemUsado" />
+				<p:panelGrid columns="4">
+					<p:selectOneRadio id="txtBemUsado" value="#{bembean.bem.usado}">
+			            <f:selectItem itemLabel="#{msgs.txt_sim}" itemValue="true" />
+			            <f:selectItem itemLabel="#{msgs.txt_nao}" itemValue="false" />
+			            <p:ajax event="change" update="panelBemUsado"/>
+			        </p:selectOneRadio>
+			        <p:outputPanel id="panelBemUsado">
+						<p:outputLabel value="#{msgs.lbl_bem_usado_tempo_tipo}" for="txtBemUsadoTempoTipo"  rendered="#{bembean.bem.usado}" />
+						<p:selectOneMenu id="txtBemUsadoTempoTipo" value="#{bembean.bem.tipo_tempo_uso}"  rendered="#{bembean.bem.usado}">
+				            <f:selectItem itemLabel="#{msgs.lbl_bem_usado_tempo_ano}" itemValue="A" />
+				            <f:selectItem itemLabel="#{msgs.lbl_bem_usado_tempo_mes}" itemValue="M" />
+				        </p:selectOneMenu>
+						<p:inputText value="#{bembean.bem.tempo_uso}" rendered="#{bembean.bem.usado}" />
+					</p:outputPanel>
+		        </p:panelGrid>
+
+				<p:outputLabel value="#{fn:replace(msgs.lbl_vida_util_padrao,'#',bembean.vida_util_padrao) }" for="txtVidaUtil" />
+				<p:inputText id="txtVidaUtil" value="#{bembean.bem.vida_Util}" readonly="#{bembean.bem.baixado}" />
+
+				<p:outputLabel value="#{msgs.lbl_turno_trabalho}" for="txtTurnoTrabalho" />
+				<p:selectOneRadio id="txtTurnoTrabalho" value="#{bembean.bem.turno_trabalho}" readonly="#{bembean.bem.baixado}">
+		            <f:selectItem itemLabel="1" itemValue="1.0" />
+		            <f:selectItem itemLabel="2" itemValue="1.5" />
+		            <f:selectItem itemLabel="3" itemValue="2.0" />
+		        </p:selectOneRadio>
+
+	        	<p:outputLabel value="#{msgs.lbl_valor_residual_tipo}" for="txtTipoValorResidual" />
+				<p:selectOneMenu id="txtTipoValorResidual" value="#{bembean.bem.valor_residual_tipo}" readonly="#{bembean.bem.baixado}">
+		            <f:selectItem itemLabel="Percentual" itemValue="P" />
+		            <f:selectItem itemLabel="Valor" itemValue="V" />
+		        </p:selectOneMenu>
+
+       			<p:outputLabel value="#{msgs.lbl_valor_residual}" for="txtValorResidual" />
+		        <p:inputNumber id="txtValorResidual" value="#{bembean.bem.valor_residual}" readonly="#{bembean.bem.baixado}"  
+					symbolPosition="s" decimalSeparator="," thousandSeparator="."
+				/>
+				
+				<p:outputLabel value="#{msgs.lbl_data_venda}" for="txtDataVenda" />
+				<p:calendar id="txtDataVenda" value="#{bembean.bem.data_venda}" pattern="dd/MM/yyyy" mask="true" readonly="#{bembean.bem.baixado}" />
+							
+				<p:outputLabel value="#{msgs.lbl_valor_venda}" for="txtValorVenda" />
+				<p:inputNumber id="txtValorVenda" value="#{bembean.bem.valor_venda}" readonly="#{bembean.bem.baixado}" 
+					symbol=" R$" symbolPosition="s" decimalSeparator="," thousandSeparator="."
+				/>
+
+			</p:panelGrid>
+
+			<p:commandButton value="#{msgs.btn_salvar}"
+				action="#{bembean.actionGravar}" 
+			rendered="#{!bembean.bem.baixado}" />
+			
+			<p:commandButton value="Simulação de Baixa"
+				onclick="PF('dlgDepreciacao').show();"
+			rendered="#{bembean.bem.id != null}" />
+			
+			<br />
+			<p:panelGrid columns="2">
+									
+				<p:outputLabel value="#{msgs.d_vida_util_utilizada}" for="lblDepreciacao_VidaUtilUtilizada" rendered="#{bembean.bem.usado}" />
+				<p:outputLabel id="lblDepreciacao_VidaUtilUtilizada" value="#{bembean.bem.depreciacao.metadevidautil ? msgs.d_vida_util_metade : d_vida_util_restante }" rendered="#{bembean.bem.usado}" />
+
+				<p:outputLabel value="#{msgs.d_vida_util}" for="lblDepreciacao_VidaUtil" rendered="#{bembean.bem.usado}" />
+				<p:outputLabel id="lblDepreciacao_VidaUtil" value="#{bembean.bem.depreciacao.vidautilestimada}" rendered="#{bembean.bem.usado}" />
+
+				<p:outputLabel value="#{msgs.d_taxadepreciacao}" for="lblDepreciacao_Taxa" />
+				<p:outputLabel id="lblDepreciacao_Taxa" value="#{bembean.bem.depreciacao.taxa}" />
+
+				<p:outputLabel value="#{msgs.d_periodo_lista}" for="tblListaPeriodo" />					
+				<p:dataTable tableStyle="table-layout:auto" id="tblListaPeriodo" value="#{bembean.bem.depreciacao.lstPeriodo}" var="periodo">
+					<p:column headerText="#{msgs.d_periodo_lista_ano}" style="{'width: 120px;'}">
+						<h:outputLabel value="#{periodo.key}" />
+					</p:column>
+					<p:column headerText="#{msgs.d_periodo_lista_mes}" style="{'width: 120px;'}">
+						<h:outputLabel value="#{periodo.value}" />
+					</p:column>
+				</p:dataTable>
+				
+				<p:outputLabel value="#{msgs.d_periodo}" for="lblDepreciacao_Periodo" />
+				<p:outputLabel id="lblDepreciacao_Periodo" value="#{bembean.bem.depreciacao.periodo}" />
+
+				<p:outputLabel value="#{msgs.d_custobem}" for="lblDepreciacao_CustoBem" />
+				<p:outputLabel id="lblDepreciacao_CustoBem" value="#{bembean.bem.depreciacao.custobem}" >	
+					<f:convertNumber currencyCode="BRL" type="currency" />
+				</p:outputLabel>
+				
+				<p:outputLabel value="#{msgs.d_valorresidual}" for="lblDepreciacao_ValorResidual" />
+				<p:outputLabel id="lblDepreciacao_ValorResidual" value="#{bembean.bem.depreciacao.valorresidual}" >	
+					<f:convertNumber currencyCode="BRL" type="currency" />
+				</p:outputLabel>					
+
+				<p:outputLabel value="#{msgs.d_acumulada}" for="lblDepreciacao_Acumulada" />
+				<p:outputLabel id="lblDepreciacao_Acumulada" value="#{bembean.bem.depreciacao.acumulado}" >	
+					<f:convertNumber currencyCode="BRL" type="currency" />
+				</p:outputLabel>
+				
+				<p:outputLabel value="#{msgs.d_valorcomercial}" for="lblDepreciacao_ValorComercial" />
+				<p:outputLabel id="lblDepreciacao_ValorComercial" value="#{bembean.bem.depreciacao.valorcomercial}" >	
+					<f:convertNumber currencyCode="BRL" type="currency" />
+				</p:outputLabel>
+				
+				<p:outputLabel value="#{msgs.d_ganhoperda}" for="lblDepreciacao_GanhoPerda" rendered="#{bembean.bem.baixado}" />
+				<p:outputLabel id="lblDepreciacao_GanhoPerda" value="#{bembean.bem.depreciacao.ganhoperda}"  rendered="#{bembean.bem.baixado}" >	
+					<f:convertNumber currencyCode="BRL" type="currency" />
+				</p:outputLabel>
+
+			</p:panelGrid>
+			
+			<p:dialog header="Simulação de Baixa de Bem" widgetVar="dlgDepreciacao" modal="true" height="600" closeOnEscape="false" appendToBody="true">
+				<p:ajax event="close" listener="#{bembean.handleCloseSimulacao}" />
+
+
+				<p:outputLabel value="#{msgs.lbl_data_venda}" for="simulacao_txtDataVenda" />
+				<p:calendar id="simulacao_txtDataVenda" value="#{bembean.data_referencia}" pattern="dd/MM/yyyy" mask="true" />
+
+				<p:outputLabel value="#{msgs.lbl_valor_venda}" for="simulacao_txtValorVenda" />
+				<p:inputNumber id="simulacao_txtValorVenda" value="#{bembean.bem.valor_venda}" 
+					symbol=" R$" symbolPosition="s" decimalSeparator="," thousandSeparator="."
+				/>
+			 
+	 			<p:commandButton value="Simulação de Baixa"
+					action="#{bembean.handleSimulacao}" update="pResultadoSimulacao" />
+			 
+				<p:panelGrid id="pResultadoSimulacao" columns="2">
+										
+					<p:outputLabel value="#{msgs.d_vida_util_utilizada}" for="simulacao_lblDepreciacao_VidaUtilUtilizada" rendered="#{bembean.simulacao_efetuada}" />
+					<p:outputLabel id="simulacao_lblDepreciacao_VidaUtilUtilizada" value="#{bembean.bem.depreciacao.metadevidautil ? msgs.d_vida_util_metade : d_vida_util_restante }" rendered="#{bembean.simulacao_efetuada}" />
+
+					<p:outputLabel value="#{msgs.d_vida_util}" for="simulacao_lblDepreciacao_VidaUtil" rendered="#{bembean.simulacao_efetuada}" />
+					<p:outputLabel id="simulacao_lblDepreciacao_VidaUtil" value="#{bembean.bem.depreciacao.vidautilestimada}" rendered="#{bembean.simulacao_efetuada}" />
+
+					<p:outputLabel value="#{msgs.d_taxadepreciacao}" for="simulacao_lblDepreciacao_Taxa"  rendered="#{bembean.simulacao_efetuada}" />
+					<p:outputLabel id="simulacao_lblDepreciacao_Taxa" value="#{bembean.bem.depreciacao.taxa}"  rendered="#{bembean.simulacao_efetuada}" />
+
+					<p:outputLabel value="#{msgs.d_periodo_lista}" for="simulacao_tblListaPeriodo"  rendered="#{bembean.simulacao_efetuada}" />					
+					<p:dataTable tableStyle="table-layout:auto" id="simulacao_tblListaPeriodo" value="#{bembean.bem.depreciacao.lstPeriodo}" var="periodo" rendered="#{bembean.simulacao_efetuada}" >
+						<p:column headerText="#{msgs.d_periodo_lista_ano}" style="{'width: 120px;'}">
+							<h:outputLabel value="#{periodo.key}" />
+						</p:column>
+						<p:column headerText="#{msgs.d_periodo_lista_mes}" style="{'width: 120px;'}">
+							<h:outputLabel value="#{periodo.value}" />
+						</p:column>
+					</p:dataTable>
+					
+					<p:outputLabel value="#{msgs.d_periodo}" for="simulacao_lblDepreciacao_Periodo"  rendered="#{bembean.simulacao_efetuada}" />
+					<p:outputLabel id="simulacao_lblDepreciacao_Periodo" value="#{bembean.bem.depreciacao.periodo}"  rendered="#{bembean.simulacao_efetuada}" />
+
+					<p:outputLabel value="#{msgs.d_custobem}" for="simulacao_lblDepreciacao_CustoBem"  rendered="#{bembean.simulacao_efetuada}" />
+					<p:outputLabel id="simulacao_lblDepreciacao_CustoBem" value="#{bembean.bem.depreciacao.custobem}"  rendered="#{bembean.simulacao_efetuada}" >	
+						<f:convertNumber currencyCode="BRL" type="currency" />
+					</p:outputLabel>
+					
+					<p:outputLabel value="#{msgs.d_valorresidual}" for="simulacao_lblDepreciacao_ValorResidual"  rendered="#{bembean.simulacao_efetuada}" />
+					<p:outputLabel id="simulacao_lblDepreciacao_ValorResidual" value="#{bembean.bem.depreciacao.valorresidual}"  rendered="#{bembean.simulacao_efetuada}" >	
+						<f:convertNumber currencyCode="BRL" type="currency" />
+					</p:outputLabel>					
+
+					<p:outputLabel value="#{msgs.d_acumulada}" for="simulacao_lblDepreciacao_Acumulada"  rendered="#{bembean.simulacao_efetuada}" />
+					<p:outputLabel id="simulacao_lblDepreciacao_Acumulada" value="#{bembean.bem.depreciacao.acumulado}"  rendered="#{bembean.simulacao_efetuada}" >	
+						<f:convertNumber currencyCode="BRL" type="currency" />
+					</p:outputLabel>
+					
+					<p:outputLabel value="#{msgs.d_valorcomercial}" for="simulacao_lblDepreciacao_ValorComercial" rendered="#{bembean.simulacao_efetuada}" />
+					<p:outputLabel id="simulacao_lblDepreciacao_ValorComercial" value="#{bembean.bem.depreciacao.valorcomercial}"  rendered="#{bembean.simulacao_efetuada}" >
+						<f:convertNumber currencyCode="BRL" type="currency" />
+					</p:outputLabel>
+					
+					<p:outputLabel value="#{msgs.d_ganhoperda}" for="simulacao_lblDepreciacao_GanhoPerda" rendered="#{bembean.simulacao_efetuada}" />
+					<p:outputLabel id="simulacao_lblDepreciacao_GanhoPerda" value="#{bembean.bem.depreciacao.ganhoperda}" rendered="#{bembean.bem.baixado}" >	
+						<f:convertNumber currencyCode="BRL" type="currency" />
+					</p:outputLabel>
+
+				</p:panelGrid>
+
+			</p:dialog>			
+		</h:form>
+	</h:body>
+</f:view>
+
+</html>

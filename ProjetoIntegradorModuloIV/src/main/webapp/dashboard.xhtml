@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" lang="#{lc.language}"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<f:view locale="#{lc.locale}">
+	<h:head>
+		<title>#{msgs.title}</title>
+	</h:head>
+	<h:body>
+		<h:form>
+			<p:growl id="messages" showDetail="true" />
+			<p:menubar>
+				<p:menuitem value="#{msgs.txt_tipobens}" action="tipobens" />
+				<p:menuitem value="#{msgs.txt_bens}" action="bens" />
+				<p:menuitem value="#{msgs.txt_bens_baixados}" action="bensbaixados" />
+				<p:menuitem value="#{msgs.txt_relatorios}" action="relatorios" />
+				<p:menuitem value="Dashboard" action="dashboard" />
+				<f:facet name="options">
+					<p:outputLabel value="#{msgs.escolheridioma}" for="cboIdioma" />
+					<p:selectOneMenu id="cboIdioma" value="#{lc.language}"
+						onchange="submit()">
+						<f:selectItem itemLabel="Português" itemValue="pt_BR" />
+						<f:selectItem itemLabel="English" itemValue="en" />
+						<f:selectItem itemLabel="Español" itemValue="es" />
+					</p:selectOneMenu>
+				</f:facet>
+			</p:menubar>
+		</h:form>
+		<br />
+		<p:panelGrid columns="1">
+			<p:chart type="bar" model="#{dashboardbean.chartModel}"  />
+			<p:outputLabel value="Top 5 Ganhos" for="tblGanhos" />					
+			<p:dataTable tableStyle="table-layout:auto" id="tblGanhos" value="#{dashboardbean.lstMaioresGanho}" var="ganho" >
+				<p:column headerText="#{msgs.lbl_descricao}">
+					<h:outputLabel value="#{ganho.descricao}" />
+				</p:column>
+				<p:column headerText="#{msgs.d_custobem}" >
+					<h:outputLabel value="#{ganho.depreciacao.custobem}" />
+				</p:column>
+				<p:column headerText="#{msgs.d_custobem}" >
+					<h:outputLabel value="#{ganho.depreciacao.custobem}" />
+				</p:column>
+				<p:column headerText="#{msgs.d_valorcomercial}" >
+					<h:outputLabel value="#{ganho.depreciacao.valorcomercial}" />
+				</p:column>
+				<p:column headerText="#{msgs.d_valorvenda}" >
+					<h:outputLabel value="#{ganho.depreciacao.valorvenda}" />
+				</p:column>
+				<p:column headerText="#{msgs.d_ganhoperda}" >
+					<h:outputLabel value="#{ganho.depreciacao.ganhoperda}" />
+				</p:column>
+			</p:dataTable>
+			<p:outputLabel value="Top 5 Perdas" for="tblPerdas" />
+			<p:dataTable tableStyle="table-layout:auto" id="tblPerdas" value="#{dashboardbean.lstMaioresPerdas}" var="perda" >
+				<p:column headerText="#{msgs.lbl_descricao}">
+					<h:outputLabel value="#{perda.descricao}" />
+				</p:column>
+				<p:column headerText="#{msgs.d_custobem}" >
+					<h:outputLabel value="#{perda.depreciacao.custobem}" />
+				</p:column>
+				<p:column headerText="#{msgs.d_custobem}" >
+					<h:outputLabel value="#{perda.depreciacao.custobem}" />
+				</p:column>
+				<p:column headerText="#{msgs.d_valorcomercial}" >
+					<h:outputLabel value="#{perda.depreciacao.valorcomercial}" />
+				</p:column>
+				<p:column headerText="#{msgs.d_valorvenda}" >
+					<h:outputLabel value="#{perda.depreciacao.valorvenda}" />
+				</p:column>
+				<p:column headerText="#{msgs.d_ganhoperda}" >
+					<h:outputLabel value="#{perda.depreciacao.ganhoperda}" />
+				</p:column>
+			</p:dataTable>
+		</p:panelGrid>
+	</h:body>
+</f:view>
+</html>

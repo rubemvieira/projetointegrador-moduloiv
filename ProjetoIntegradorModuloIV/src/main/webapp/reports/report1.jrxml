@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4619954d-4724-41b6-a6aa-a81d51ac14ca">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[select
+b.id,
+t.id as tipo,
+t.descricao as tipo_descricao,
+b.descricao,
+b.data_aquisicao,
+b.valor_aquisicao,
+b.vida_util,
+b.turno_trabalho,
+b.valor_residual,
+b.valor_residual_tipo,
+b.data_venda,
+b.valor_venda,
+b.adquirido_usado,
+b.tempo_uso,
+b.tempo_uso_tipo
+from
+bem b inner join tipo_bem t on t.id = b.tipo
+where b.data_venda is null;]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="tipo" class="java.lang.Integer"/>
+	<field name="tipo_descricao" class="java.lang.String"/>
+	<field name="descricao" class="java.lang.String"/>
+	<field name="data_aquisicao" class="java.sql.Date"/>
+	<field name="valor_aquisicao" class="java.math.BigDecimal"/>
+	<field name="vida_util" class="java.lang.Integer"/>
+	<field name="turno_trabalho" class="java.math.BigDecimal"/>
+	<field name="valor_residual" class="java.math.BigDecimal"/>
+	<field name="valor_residual_tipo" class="java.lang.String"/>
+	<field name="data_venda" class="java.sql.Date"/>
+	<field name="valor_venda" class="java.math.BigDecimal"/>
+	<field name="adquirido_usado" class="java.lang.Boolean"/>
+	<field name="tempo_uso" class="java.lang.Integer"/>
+	<field name="tempo_uso_tipo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="270" y="0" width="263" height="62" uuid="265b42e3-89cf-4066-a000-74b641172483"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Bens Ativos]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="802" height="1" uuid="83ed204b-d0c6-4a7f-b193-1a16e9625aa2"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="53" height="15" forecolor="#736343" uuid="ae45225c-9fb6-4e96-b253-4adca20d3dcf"/>
+				<text><![CDATA[id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="53" y="0" width="53" height="15" forecolor="#736343" uuid="d1e34339-5ba4-4b8f-9085-683bde4584a8"/>
+				<text><![CDATA[tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="106" y="0" width="53" height="15" forecolor="#736343" uuid="27a6d23f-43f6-4a9c-b3f0-c05f80642ba4"/>
+				<text><![CDATA[tipo_descricao]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="159" y="0" width="53" height="15" forecolor="#736343" uuid="e149626c-4dcb-453a-afee-622f5fe15972"/>
+				<text><![CDATA[descricao]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="212" y="0" width="53" height="15" forecolor="#736343" uuid="8e20b554-a992-47b1-8248-f539c8aba8e5"/>
+				<text><![CDATA[data_aquisicao]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="265" y="0" width="53" height="15" forecolor="#736343" uuid="896a8f48-17c0-4d67-b166-ac5a9dfc0e73"/>
+				<text><![CDATA[valor_aquisicao]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="318" y="0" width="53" height="15" forecolor="#736343" uuid="7226f6fa-bdeb-4ebc-999b-61e1fcfffcc6"/>
+				<text><![CDATA[vida_util]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="371" y="0" width="53" height="15" forecolor="#736343" uuid="912d83cf-2f3c-4ad4-86a6-a19c38384832"/>
+				<text><![CDATA[turno_trabalho]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="424" y="0" width="53" height="15" forecolor="#736343" uuid="a933feac-1e5e-45be-a409-26e6934cbc7e"/>
+				<text><![CDATA[valor_residual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="477" y="0" width="53" height="15" forecolor="#736343" uuid="2c80005b-1354-4640-8889-83a620d665bd"/>
+				<text><![CDATA[valor_residual_tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="530" y="0" width="53" height="15" forecolor="#736343" uuid="c4b46b16-ef85-4a73-af1a-f41ddeb76054"/>
+				<text><![CDATA[data_venda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="583" y="0" width="53" height="15" forecolor="#736343" uuid="d5a4311b-33c9-4dee-9e92-371dca4bbfc3"/>
+				<text><![CDATA[valor_venda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="636" y="0" width="53" height="15" forecolor="#736343" uuid="afbf1e85-0158-4b7d-a35f-f2382ba091d6"/>
+				<text><![CDATA[adquirido_usado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="689" y="0" width="53" height="15" forecolor="#736343" uuid="dfbaaa99-a3ab-4690-9ee7-9ae3d3058130"/>
+				<text><![CDATA[tempo_uso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="742" y="0" width="53" height="15" forecolor="#736343" uuid="1d150ed1-6b3f-43e9-b514-c4ec08d6fb68"/>
+				<text><![CDATA[tempo_uso_tipo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="802" height="15" uuid="95a8e5fd-d3d2-48a3-b8b3-022fadf78386"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="0" y="0" width="53" height="15" uuid="feaf9f94-be32-44fb-bcab-0023baa8e5ee"/>
+					<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="53" y="0" width="53" height="15" uuid="8ffb982e-6072-4932-902c-5768b4191bb6"/>
+					<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="106" y="0" width="53" height="15" uuid="b4ae924e-3595-47db-9bff-7f20fff4ecf9"/>
+					<textFieldExpression><![CDATA[$F{tipo_descricao}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="159" y="0" width="53" height="15" uuid="5d28fabe-09c2-481e-a6da-639e5a8718d8"/>
+					<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="212" y="0" width="53" height="15" uuid="573a9977-38f7-47ff-bcf6-cd8d4ccc018c"/>
+					<textFieldExpression><![CDATA[$F{data_aquisicao}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="265" y="0" width="53" height="15" uuid="4a3ba7d3-9882-4ba4-b656-700cc4dca69b"/>
+					<textFieldExpression><![CDATA[$F{valor_aquisicao}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="318" y="0" width="53" height="15" uuid="68164380-e705-4213-bbea-dac2e32358be"/>
+					<textFieldExpression><![CDATA[$F{vida_util}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="371" y="0" width="53" height="15" uuid="0304c86c-d836-4f44-b7d0-4a7cadf3884c"/>
+					<textFieldExpression><![CDATA[$F{turno_trabalho}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="424" y="0" width="53" height="15" uuid="122a6618-3104-4556-bc27-33ef3581709c"/>
+					<textFieldExpression><![CDATA[$F{valor_residual}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="477" y="0" width="53" height="15" uuid="20cc5b98-9cd5-4fbb-b432-b13ac589f52f"/>
+					<textFieldExpression><![CDATA[$F{valor_residual_tipo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="530" y="0" width="53" height="15" uuid="510383a6-478c-4372-8918-55a2dd14b9d5"/>
+					<textFieldExpression><![CDATA[$F{data_venda}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="583" y="0" width="53" height="15" uuid="6f690550-174e-442b-9762-bf20b85f066c"/>
+					<textFieldExpression><![CDATA[$F{valor_venda}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="636" y="0" width="53" height="15" uuid="064bd066-92bb-4b77-a757-02681ab52864"/>
+					<textFieldExpression><![CDATA[$F{adquirido_usado}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="689" y="0" width="53" height="15" uuid="32c64a0d-1191-4b61-bf0a-1e78fab6195b"/>
+					<textFieldExpression><![CDATA[$F{tempo_uso}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="742" y="0" width="53" height="15" uuid="07ca6484-f198-464f-9804-366a61ef07cf"/>
+					<textFieldExpression><![CDATA[$F{tempo_uso_tipo}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="802" height="1" uuid="22cb2584-f70f-4a91-ae7a-7b929a910be6"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="843" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="b61e19bc-9f1f-4c9c-92f7-13c9674daf1b"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="783" y="1" width="40" height="20" forecolor="#736343" uuid="be38335e-bce2-4aed-a994-7543e1a71281"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="703" y="1" width="80" height="20" forecolor="#736343" uuid="ae9c5ae6-fbd7-46f9-96b0-4ea13607d935"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="1cb60dc1-aa0a-419a-85dd-36dc6ff787c1"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
